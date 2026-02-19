@@ -2,21 +2,23 @@ import { useCart } from '../context/CartContext'
 
 function Cart() {
     const { cart } = useCart()
+    const items = cart.items || []
 
-    const total = cart.reduce((sum, item) => sum + item.price, 0)
+    const total = items.reduce((sum, item) => sum + item.product.price * item.quantity, 0)
 
     return (
         <div className="cart-section">
             <h2 className="page-title">Mon Panier</h2>
-            {cart.length === 0 ? (
+            {items.length === 0 ? (
                 <p className="empty-state">Votre panier est vide</p>
             ) : (
                 <>
                     <div className="cart-items">
-                        {cart.map((item, index) => (
-                            <div className="cart-item" key={index}>
-                                <h3>{item.name}</h3>
-                                <span className="price">{item.price.toFixed(2)} &euro;</span>
+                        {items.map(item => (
+                            <div className="cart-item" key={item.id}>
+                                <h3>{item.product.name}</h3>
+                                <span className="price">{item.product.price.toFixed(2)} &euro;</span>
+                                <span className="quantity">x{item.quantity}</span>
                             </div>
                         ))}
                     </div>

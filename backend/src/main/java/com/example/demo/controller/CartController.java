@@ -4,10 +4,12 @@ import com.example.demo.model.Cart;
 import com.example.demo.service.CartService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.math.BigDecimal;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:5173")
 @RequestMapping("/api/cart")
 public class CartController {
 
@@ -19,7 +21,7 @@ public class CartController {
 
     @GetMapping("/{userId}")
     public ResponseEntity<Cart> getCart(@PathVariable Long userId) {
-        Cart cart = cartService.getCartByUserId(userId);
+        Cart cart = cartService.getOrCreateCart(userId);
         return ResponseEntity.ok(cart);
     }
 

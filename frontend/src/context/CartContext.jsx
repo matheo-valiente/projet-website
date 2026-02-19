@@ -1,12 +1,29 @@
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useState, useEffect } from 'react'
 
 const CartContext = createContext()
+const API = 'http://localhost:8080'
 
 export function CartProvider({ children }) {
-    const [cart, setCart] = useState([])
+    const [cart, setCart] = useState({ items: [] })
+
+    useEffect(() => {
+        const stored = localStorage.getItem('user')
+        if (!stored) return
+        const user = JSON.parse(stored)
+        fetch(`${API}/api/cart/${user.id}`)
+            .then(res => res.json())
+            .then(data => setCart(data))
+    }, [])
 
     const addToCart = (product) => {
-        setCart([...cart, product])
+        const stored = localStorage.getItem('user')
+        if (!stored) return
+        const user = JSON.parse(stored)
+        fetch(`${API}/api/cart/${user.id}/items?productId=${product.id}&quantity=1`, {
+            method: 'POST'
+        })
+            .then(res => res.json())
+            .then(data => setCart(data))
     }
 
     return (

@@ -36,7 +36,7 @@ function Nav() {
           </Link>
           <Link to="/cart" className={location.pathname === '/cart' ? 'active' : ''}>
             Panier
-            {cart.length > 0 && <span className="cart-badge">{cart.length}</span>}
+            {cart.items?.length > 0 && <span className="cart-badge">{cart.items.length}</span>}
           </Link>
           {user ? (
             <>
