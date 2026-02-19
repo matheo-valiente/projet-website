@@ -60,6 +60,31 @@
   border-bottom-color: #1a1a1a;
 }
 
+.navbar-user {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #1a1a1a;
+}
+
+.btn-logout {
+  padding: 0.4rem 0.85rem;
+  background: none;
+  color: #555;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.btn-logout:hover {
+  background: #1a1a1a;
+  color: #fff;
+  border-color: #1a1a1a;
+}
+
 .cart-badge {
   background: #1a1a1a;
   color: #fff;
@@ -361,6 +386,29 @@
 .btn-register {
   width: 100%;
   margin-top: 0.5rem;
+}
+
+/* ===== Login ===== */
+.login-error {
+  font-size: 0.85rem;
+  color: #ea4335;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 6px;
+  padding: 0.6rem 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.login-link {
+  font-size: 0.82rem;
+  color: #777;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.login-link a {
+  color: #1a1a1a;
+  font-weight: 500;
 }
 
 /* ===== Empty state ===== */

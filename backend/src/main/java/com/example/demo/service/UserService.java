@@ -30,6 +30,10 @@ public class UserService {
         }
 
 
+        if (user.getRole() == null) {
+            user.setRole(Role.CUSTOMER);
+        }
+
         User savedUser = userRepository.save(user);
 
         // Create empty cart for new user

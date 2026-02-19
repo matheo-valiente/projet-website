@@ -1,11 +1,9 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 
-function Register() {
+function Login() {
   const navigate = useNavigate()
-  const [form, setForm] = useState({
-    firstName: '', lastName: '', email: '', password: ''
-  })
+  const [form, setForm] = useState({ email: '', password: '' })
   const [error, setError] = useState('')
 
   const handleChange = (e) => {
@@ -15,48 +13,28 @@ function Register() {
   const handleSubmit = (e) => {
     e.preventDefault()
     setError('')
-    fetch('http://localhost:8080/api/users', {
+    fetch('http://localhost:8080/api/users/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(form)
     })
       .then(res => {
-        if (!res.ok) throw new Error('Erreur lors de la création du compte')
+        if (!res.ok) throw new Error('Identifiants incorrects')
         return res.json()
       })
-      .then(data => {
-        alert('Compte créé !')
-        navigate('/login')
+      .then(user => {
+        localStorage.setItem('user', JSON.stringify(user))
+        navigate('/')
       })
-      .catch(err => setError(err.message))
+      .catch(() => setError('Email ou mot de passe incorrect'))
   }
 
   return (
     <div className="register-section">
-      <h2 className="page-title">Créer un compte</h2>
+      <h2 className="page-title">Connexion</h2>
       <div className="register-card">
         {error && <p className="login-error">{error}</p>}
         <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="firstName">Prénom</label>
-            <input
-              id="firstName"
-              name="firstName"
-              placeholder="Prénom"
-              value={form.firstName}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="lastName">Nom</label>
-            <input
-              id="lastName"
-              name="lastName"
-              placeholder="Nom"
-              value={form.lastName}
-              onChange={handleChange}
-            />
-          </div>
           <div className="form-group">
             <label htmlFor="email">Email</label>
             <input
@@ -79,11 +57,14 @@ function Register() {
               onChange={handleChange}
             />
           </div>
-          <button type="submit" className="btn-add btn-register">S'inscrire</button>
+          <button type="submit" className="btn-add btn-register">Se connecter</button>
         </form>
+        <p className="login-link">
+          Pas encore de compte ? <Link to="/register">S'inscrire</Link>
+        </p>
       </div>
     </div>
   )
 }
 
-export default Register
+export default Login
