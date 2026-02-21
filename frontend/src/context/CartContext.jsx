@@ -26,8 +26,34 @@ export function CartProvider({ children }) {
             .then(data => setCart(data))
     }
 
+    const updateQuantity = (productId, quantity) => {
+        const stored = localStorage.getItem('user')
+        if (!stored) return
+        const user = JSON.parse(stored)
+        fetch(`${API}/api/cart/${user.id}/items/${productId}?quantity=${quantity}`, {
+            method: 'PUT'
+        })
+            .then(res => res.json())
+            .then(data => setCart(data))
+    }
+
+    const removeItem = (productId) => {
+        const stored = localStorage.getItem('user')
+        if (!stored) return
+        const user = JSON.parse(stored)
+        fetch(`${API}/api/cart/${user.id}/items/${productId}`, {
+            method: 'DELETE'
+        })
+            .then(res => res.json())
+            .then(data => setCart(data))
+    }
+
+    const clearCart = () => {
+        setCart({ items: [] })
+    }
+
     return (
-        <CartContext.Provider value={{ cart, addToCart }}>
+        <CartContext.Provider value={{ cart, addToCart, updateQuantity, removeItem, clearCart }}>
             {children}
         </CartContext.Provider>
     )

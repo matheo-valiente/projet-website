@@ -2,6 +2,8 @@ import './App.css'
 import ProductList from './components/ProductList'
 import ProductDetail from './components/ProductDetail'
 import Cart from './components/Cart'
+import Checkout from './components/Checkout'
+import Confirmation from './components/Confirmation'
 import Register from './components/Register'
 import Login from './components/Login'
 import { CartProvider } from './context/CartContext';
@@ -71,6 +73,8 @@ function App() {
             <Route path="/cart" element={<Cart />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/confirmation/:orderId" element={<Confirmation />} />
           </Routes>
         </div>
         <footer className="footer">TechEasy &copy; 2025</footer>

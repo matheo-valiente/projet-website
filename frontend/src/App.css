@@ -411,6 +411,193 @@
   font-weight: 500;
 }
 
+/* ===== Cart actions ===== */
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.quantity-controls button {
+  width: 28px;
+  height: 28px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  background: #fff;
+  color: #1a1a1a;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.quantity-controls button:hover {
+  background: #f5f5f5;
+  border-color: #bbb;
+}
+
+.quantity {
+  min-width: 24px;
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.btn-checkout {
+  display: block;
+  margin-top: 1.25rem;
+  padding: 0.75rem 1.5rem;
+  background: #1a1a1a;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.btn-checkout:hover {
+  background: #333;
+}
+
+/* ===== Checkout ===== */
+.checkout-section {
+  padding-bottom: 3rem;
+  max-width: 600px;
+}
+
+.checkout-recap {
+  background: #fff;
+  border: 1px solid #e8e8e8;
+  border-radius: 8px;
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.checkout-recap h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 0.75rem;
+}
+
+.recap-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.88rem;
+  color: #555;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.recap-item:last-of-type {
+  border-bottom: none;
+}
+
+.recap-total {
+  padding-top: 0.75rem;
+  margin-top: 0.5rem;
+  border-top: 1px solid #e8e8e8;
+  text-align: right;
+  font-size: 0.95rem;
+  color: #1a1a1a;
+}
+
+.address-form {
+  background: #fff;
+  border: 1px solid #e8e8e8;
+  border-radius: 8px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.address-form h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 0.25rem;
+}
+
+.address-form input {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  font-size: 0.9rem;
+  font-family: inherit;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  background: #fff;
+  color: #1a1a1a;
+  transition: border-color 0.15s;
+  box-sizing: border-box;
+}
+
+.address-form input:focus {
+  outline: none;
+  border-color: #1a1a1a;
+}
+
+.btn-submit {
+  padding: 0.75rem 1.5rem;
+  background: #1a1a1a;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  margin-top: 0.25rem;
+  transition: background 0.15s;
+}
+
+.btn-submit:hover {
+  background: #333;
+}
+
+.error-message {
+  font-size: 0.85rem;
+  color: #ea4335;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 6px;
+  padding: 0.6rem 0.75rem;
+}
+
+/* ===== Confirmation ===== */
+.confirmation-section {
+  padding: 4rem 0 3rem;
+  text-align: center;
+}
+
+.confirmation-message {
+  font-size: 0.95rem;
+  color: #555;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.btn-home {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background: #1a1a1a;
+  color: #fff;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: background 0.15s;
+}
+
+.btn-home:hover {
+  background: #333;
+}
+
 /* ===== Empty state ===== */
 .empty-state {
   text-align: center;
