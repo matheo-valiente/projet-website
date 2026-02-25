@@ -4,12 +4,19 @@ import ProductDetail from './components/ProductDetail'
 import Cart from './components/Cart'
 import Checkout from './components/Checkout'
 import Confirmation from './components/Confirmation'
+import Orders from './components/Orders'
 import Register from './components/Register'
 import Login from './components/Login'
 import { CartProvider } from './context/CartContext';
 import { useCart } from './context/CartContext';
 import { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
+
+function ProtectedRoute({ children }) {
+  const stored = localStorage.getItem('user')
+  if (!stored) return <Navigate to="/login" replace />
+  return children
+}
 
 function Nav() {
   const { cart } = useCart()
@@ -40,6 +47,11 @@ function Nav() {
             Panier
             {cart.items?.length > 0 && <span className="cart-badge">{cart.items.length}</span>}
           </Link>
+          {user && (
+            <Link to="/orders" className={location.pathname === '/orders' ? 'active' : ''}>
+              Mes commandes
+            </Link>
+          )}
           {user ? (
             <>
               <span className="navbar-user">Bonjour {user.firstName}</span>
@@ -70,11 +82,12 @@ function App() {
           <Routes>
             <Route path="/" element={<ProductList />} />
             <Route path="/product/:id" element={<ProductDetail />} />
-            <Route path="/cart" element={<Cart />} />
+            <Route path="/cart" element={<ProtectedRoute><Cart /></ProtectedRoute>} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/checkout" element={<Checkout />} />
-            <Route path="/confirmation/:orderId" element={<Confirmation />} />
+            <Route path="/checkout" element={<ProtectedRoute><Checkout /></ProtectedRoute>} />
+            <Route path="/confirmation/:orderId" element={<ProtectedRoute><Confirmation /></ProtectedRoute>} />
+            <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>} />
           </Routes>
         </div>
         <footer className="footer">TechEasy &copy; 2025</footer>

@@ -12,6 +12,12 @@ function Checkout() {
 
     const [address, setAddress] = useState({ street: '', city: '', postalCode: '', country: '' })
     const [error, setError] = useState('')
+    const [loading, setLoading] = useState(false)
+
+    if (items.length === 0) {
+        navigate('/cart')
+        return null
+    }
 
     const handleChange = (e) => {
         setAddress({ ...address, [e.target.name]: e.target.value })
@@ -20,19 +26,19 @@ function Checkout() {
     const handleSubmit = async (e) => {
         e.preventDefault()
         setError('')
+        setLoading(true)
 
         const stored = localStorage.getItem('user')
         if (!stored) { setError('Vous devez être connecté.'); return }
         const user = JSON.parse(stored)
 
         try {
-            //créer l'adresse
             const addrRes = await fetch(`${API}/api/addresses/user/${user.id}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(address)
             })
-            if (!addrRes.ok) throw new Error('Erreur lors de la sauvegarde de l\'adresse')
+            if (!addrRes.ok) throw new Error("Erreur lors de la sauvegarde de l'adresse")
             const addrData = await addrRes.json()
 
             const orderRes = await fetch(`${API}/api/orders?userId=${user.id}&addressId=${addrData.id}`, {
@@ -44,6 +50,8 @@ function Checkout() {
             navigate(`/confirmation/${orderData.id}`)
         } catch (err) {
             setError(err.message)
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -95,7 +103,9 @@ function Checkout() {
                     required
                 />
                 {error && <p className="error-message">{error}</p>}
-                <button type="submit" className="btn-submit">Confirmer la commande</button>
+                <button type="submit" className="btn-submit" disabled={loading}>
+                    {loading ? 'Traitement...' : 'Confirmer la commande'}
+                </button>
             </form>
         </div>
     )
