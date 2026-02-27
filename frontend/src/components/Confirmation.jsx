@@ -18,13 +18,18 @@ function Confirmation() {
 
     return (
         <div className="confirmation-section">
-            <h2 className="page-title">Commande confirmée !</h2>
+            <div className="success-checkmark">
+                <span className="checkmark-line"></span>
+            </div>
+            <h2 className="page-title" style={{ padding: '0 0 0.5rem', textAlign: 'center' }}>
+                Commande confirmee !
+            </h2>
             <p className="confirmation-message">
-                Merci pour votre achat. Votre commande n°<strong>{orderId}</strong> a bien été enregistrée.
+                Merci pour votre achat. Votre commande n&deg;<strong>{orderId}</strong> a bien ete enregistree.
             </p>
             {order && (
                 <p className="confirmation-total">
-                    Total : <strong>{Number(order.totalAmount).toFixed(2)} €</strong>
+                    Total : <strong>{Number(order.totalAmount).toFixed(2)} &euro;</strong>
                 </p>
             )}
             <Link to="/" className="btn-home">Retour aux produits</Link>

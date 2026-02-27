@@ -27,6 +27,7 @@ function Nav() {
   useEffect(() => {
     const stored = localStorage.getItem('user')
     if (stored) setUser(JSON.parse(stored))
+    else setUser(null)
   }, [location])
 
   const handleLogout = () => {
@@ -38,7 +39,9 @@ function Nav() {
   return (
     <nav className="navbar">
       <div className="navbar-inner">
-        <Link to="/" className="navbar-brand">TechEasy</Link>
+        <Link to="/" className="navbar-brand">
+          Tech<span className="brand-accent">Easy</span>
+        </Link>
         <div className="navbar-links">
           <Link to="/" className={location.pathname === '/' ? 'active' : ''}>
             Produits
@@ -49,13 +52,13 @@ function Nav() {
           </Link>
           {user && (
             <Link to="/orders" className={location.pathname === '/orders' ? 'active' : ''}>
-              Mes commandes
+              Commandes
             </Link>
           )}
           {user ? (
             <>
               <span className="navbar-user">Bonjour {user.firstName}</span>
-              <button onClick={handleLogout} className="btn-logout">Déconnexion</button>
+              <button onClick={handleLogout} className="btn-logout">Deconnexion</button>
             </>
           ) : (
             <>
@@ -90,7 +93,17 @@ function App() {
             <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>} />
           </Routes>
         </div>
-        <footer className="footer">TechEasy &copy; 2025</footer>
+        <footer className="footer">
+          <div className="footer-inner">
+            <span className="footer-brand">Tech<span className="brand-accent">Easy</span></span>
+            <div className="footer-links">
+              <Link to="/">Produits</Link>
+              <Link to="/cart">Panier</Link>
+              <Link to="/orders">Commandes</Link>
+            </div>
+            <span className="footer-copy">TechEasy &copy; 2025 — Tous droits reserves</span>
+          </div>
+        </footer>
       </BrowserRouter>
     </CartProvider>
   )

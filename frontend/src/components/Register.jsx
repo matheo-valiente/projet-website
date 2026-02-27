@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 
 function Register() {
   const navigate = useNavigate()
@@ -21,11 +21,10 @@ function Register() {
       body: JSON.stringify(form)
     })
       .then(res => {
-        if (!res.ok) throw new Error('Erreur lors de la création du compte')
+        if (!res.ok) throw new Error('Erreur lors de la creation du compte')
         return res.json()
       })
-      .then(data => {
-        alert('Compte créé !')
+      .then(() => {
         navigate('/login')
       })
       .catch(err => setError(err.message))
@@ -33,16 +32,16 @@ function Register() {
 
   return (
     <div className="register-section">
-      <h2 className="page-title">Créer un compte</h2>
+      <h2 className="page-title">Creer un compte</h2>
       <div className="register-card">
         {error && <p className="login-error">{error}</p>}
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label htmlFor="firstName">Prénom</label>
+            <label htmlFor="firstName">Prenom</label>
             <input
               id="firstName"
               name="firstName"
-              placeholder="Prénom"
+              placeholder="Jean"
               value={form.firstName}
               onChange={handleChange}
             />
@@ -52,7 +51,7 @@ function Register() {
             <input
               id="lastName"
               name="lastName"
-              placeholder="Nom"
+              placeholder="Dupont"
               value={form.lastName}
               onChange={handleChange}
             />
@@ -63,7 +62,7 @@ function Register() {
               id="email"
               name="email"
               type="email"
-              placeholder="Email"
+              placeholder="jean@email.com"
               value={form.email}
               onChange={handleChange}
             />
@@ -74,13 +73,16 @@ function Register() {
               id="password"
               name="password"
               type="password"
-              placeholder="Mot de passe"
+              placeholder="Minimum 6 caracteres"
               value={form.password}
               onChange={handleChange}
             />
           </div>
           <button type="submit" className="btn-add btn-register">S'inscrire</button>
         </form>
+        <p className="login-link">
+          Deja un compte ? <Link to="/login">Se connecter</Link>
+        </p>
       </div>
     </div>
   )

@@ -5,9 +5,9 @@ const API = 'http://localhost:8080'
 
 const statusConfig = {
     PENDING:   { label: 'En attente',  color: '#f59e0b' },
-    CONFIRMED: { label: 'Confirmée',   color: '#3b82f6' },
-    SHIPPED:   { label: 'Expédiée',    color: '#8b5cf6' },
-    DELIVERED: { label: 'Livrée',      color: '#22c55e' }
+    CONFIRMED: { label: 'Confirmee',   color: '#3b82f6' },
+    SHIPPED:   { label: 'Expediee',    color: '#8b5cf6' },
+    DELIVERED: { label: 'Livree',      color: '#22c55e' }
 }
 
 function Orders() {
@@ -33,9 +33,8 @@ function Orders() {
 
             {orders.length === 0 ? (
                 <div className="empty-state">
-                    Aucune commande pour le moment.
-                    <br /><br />
-                    <Link to="/" className="btn-home">Voir les produits</Link>
+                    <p>Aucune commande pour le moment.</p>
+                    <Link to="/" className="btn-secondary">Voir les produits</Link>
                 </div>
             ) : (
                 <div className="orders-list">
@@ -61,14 +60,14 @@ function Orders() {
                                     {order.items?.map(item => (
                                         <div className="order-item" key={item.id}>
                                             <span>{item.product?.name || 'Produit'} x{item.quantity}</span>
-                                            <span>{(item.priceAtPurchase * item.quantity).toFixed(2)} €</span>
+                                            <span>{(item.priceAtPurchase * item.quantity).toFixed(2)} &euro;</span>
                                         </div>
                                     ))}
                                 </div>
 
                                 <div className="order-footer">
                                     <span className="order-total">
-                                        Total : {Number(order.totalAmount).toFixed(2)} €
+                                        Total : {Number(order.totalAmount).toFixed(2)} &euro;
                                     </span>
                                 </div>
                             </div>

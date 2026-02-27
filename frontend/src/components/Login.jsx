@@ -41,7 +41,7 @@ function Login() {
               id="email"
               name="email"
               type="email"
-              placeholder="Email"
+              placeholder="votre@email.com"
               value={form.email}
               onChange={handleChange}
             />
@@ -52,7 +52,7 @@ function Login() {
               id="password"
               name="password"
               type="password"
-              placeholder="Mot de passe"
+              placeholder="Votre mot de passe"
               value={form.password}
               onChange={handleChange}
             />
