@@ -5,6 +5,7 @@ function Login() {
   const navigate = useNavigate()
   const [form, setForm] = useState({ email: '', password: '' })
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value })
@@ -13,6 +14,7 @@ function Login() {
   const handleSubmit = (e) => {
     e.preventDefault()
     setError('')
+    setLoading(true)
     fetch('http://localhost:8080/api/users/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -27,6 +29,7 @@ function Login() {
         navigate('/')
       })
       .catch(() => setError('Email ou mot de passe incorrect'))
+      .finally(() => setLoading(false))
   }
 
   return (
@@ -44,6 +47,7 @@ function Login() {
               placeholder="votre@email.com"
               value={form.email}
               onChange={handleChange}
+              required
             />
           </div>
           <div className="form-group">
@@ -55,9 +59,12 @@ function Login() {
               placeholder="Votre mot de passe"
               value={form.password}
               onChange={handleChange}
+              required
             />
           </div>
-          <button type="submit" className="btn-add btn-register">Se connecter</button>
+          <button type="submit" className="btn-add btn-register" disabled={loading}>
+            {loading ? 'Connexion...' : 'Se connecter'}
+          </button>
         </form>
         <p className="login-link">
           Pas encore de compte ? <Link to="/register">S'inscrire</Link>

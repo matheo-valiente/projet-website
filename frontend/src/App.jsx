@@ -18,17 +18,39 @@ function ProtectedRoute({ children }) {
   return children
 }
 
+function ScrollToTop() {
+  const { pathname } = useLocation()
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [pathname])
+  return null
+}
+
 function Nav() {
   const { cart } = useCart()
   const location = useLocation()
   const navigate = useNavigate()
   const [user, setUser] = useState(null)
+  const [menuOpen, setMenuOpen] = useState(false)
 
   useEffect(() => {
     const stored = localStorage.getItem('user')
     if (stored) setUser(JSON.parse(stored))
     else setUser(null)
   }, [location])
+
+  useEffect(() => {
+    setMenuOpen(false)
+  }, [location.pathname])
+
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => { document.body.style.overflow = '' }
+  }, [menuOpen])
 
   const handleLogout = () => {
     localStorage.removeItem('user')
@@ -42,7 +64,16 @@ function Nav() {
         <Link to="/" className="navbar-brand">
           Tech<span className="brand-accent">Easy</span>
         </Link>
-        <div className="navbar-links">
+        <button
+          className={`navbar-toggle ${menuOpen ? 'open' : ''}`}
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Menu"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <div className={`navbar-links ${menuOpen ? 'open' : ''}`}>
           <Link to="/" className={location.pathname === '/' ? 'active' : ''}>
             Produits
           </Link>
@@ -80,6 +111,7 @@ function App() {
   return (
     <CartProvider>
       <BrowserRouter>
+        <ScrollToTop />
         <Nav />
         <div className="main-content">
           <Routes>
@@ -101,7 +133,7 @@ function App() {
               <Link to="/cart">Panier</Link>
               <Link to="/orders">Commandes</Link>
             </div>
-            <span className="footer-copy">TechEasy &copy; 2025 — Tous droits reserves</span>
+            <span className="footer-copy">TechEasy &copy; 2025</span>
           </div>
         </footer>
       </BrowserRouter>

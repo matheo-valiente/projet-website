@@ -4,6 +4,25 @@ import { useCart } from '../context/CartContext'
 
 const API = 'http://localhost:8080'
 
+function SkeletonCards() {
+    return (
+        <div className="skeleton-grid">
+            {[...Array(6)].map((_, i) => (
+                <div className="skeleton-card" key={i}>
+                    <div className="skeleton-image" />
+                    <div className="skeleton-body">
+                        <div className="skeleton-line short" />
+                        <div className="skeleton-line medium" />
+                        <div className="skeleton-line" />
+                        <div className="skeleton-line price" />
+                        <div className="skeleton-btn" />
+                    </div>
+                </div>
+            ))}
+        </div>
+    )
+}
+
 function ProductList() {
     const { addToCart } = useCart()
     const [products, setProducts] = useState([])
@@ -13,18 +32,17 @@ function ProductList() {
     const [searchTerm, setSearchTerm] = useState('')
     const [sortOrder, setSortOrder] = useState('none')
     const [toast, setToast] = useState('')
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        fetch(`${API}/api/products`)
-            .then(res => res.json())
-            .then(data => {
-                setProducts(data)
-                setAllProducts(data)
-            })
-        fetch(`${API}/api/categories`)
-            .then(res => res.json())
-            .then(data => setCategories(data))
-            .catch(() => {})
+        Promise.all([
+            fetch(`${API}/api/products`).then(res => res.json()),
+            fetch(`${API}/api/categories`).then(res => res.json()).catch(() => [])
+        ]).then(([productsData, categoriesData]) => {
+            setProducts(productsData)
+            setAllProducts(productsData)
+            setCategories(categoriesData)
+        }).finally(() => setLoading(false))
     }, [])
 
     const handleSearch = (value) => {
@@ -68,15 +86,18 @@ function ProductList() {
 
     return (
         <div className="products-section">
-            
             <div className="hero-section">
                 <h1 className="hero-title">Bienvenue sur TechEasy</h1>
                 <p className="hero-subtitle">Trouvez les meilleurs produits tech au meilleur prix</p>
             </div>
 
-            
             <div className="search-bar">
-                <span className="search-icon">Q</span>
+                <span className="search-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="11" cy="11" r="8" />
+                        <path d="m21 21-4.3-4.3" />
+                    </svg>
+                </span>
                 <input
                     type="text"
                     placeholder="Rechercher un produit..."
@@ -118,9 +139,16 @@ function ProductList() {
                 </div>
             </div>
 
-            {/* Products */}
-            {sortedProducts.length === 0 ? (
+            {loading ? (
+                <SkeletonCards />
+            ) : sortedProducts.length === 0 ? (
                 <div className="empty-state">
+                    <div className="empty-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.3 }}>
+                            <circle cx="11" cy="11" r="8" />
+                            <path d="m21 21-4.3-4.3" />
+                        </svg>
+                    </div>
                     <p className="empty-state-title">Aucun resultat</p>
                     <p>Essayez avec d'autres termes de recherche</p>
                     <button className="btn-secondary" onClick={() => { handleSearch(''); setSortOrder('none') }}>
@@ -168,9 +196,13 @@ function ProductList() {
                 </div>
             )}
 
-            {/* Toast */}
             <div className={`toast ${toast ? 'show' : ''}`}>
-                <strong>{toast}</strong> — ajoute au panier
+                <span className="toast-check">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                </span>
+                <span><strong>{toast}</strong> ajoute au panier</span>
             </div>
         </div>
     )

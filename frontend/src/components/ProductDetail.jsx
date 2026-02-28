@@ -6,12 +6,15 @@ function ProductDetail() {
     const { id } = useParams()
     const { addToCart } = useCart()
     const [product, setProduct] = useState(null)
+    const [loading, setLoading] = useState(true)
     const [toast, setToast] = useState(false)
 
     useEffect(() => {
+        setLoading(true)
         fetch(`http://localhost:8080/api/products/${id}`)
             .then(res => res.json())
             .then(data => setProduct(data))
+            .finally(() => setLoading(false))
     }, [id])
 
     const handleAddToCart = () => {
@@ -20,7 +23,18 @@ function ProductDetail() {
         setTimeout(() => setToast(false), 2500)
     }
 
-    if (!product) return <p className="empty-state">Chargement...</p>
+    if (loading) {
+        return (
+            <div className="detail-section">
+                <div className="loading-section">
+                    <div className="spinner" />
+                    <span className="loading-text">Chargement...</span>
+                </div>
+            </div>
+        )
+    }
+
+    if (!product) return <div className="empty-state">Produit introuvable</div>
 
     return (
         <div className="detail-section">
@@ -59,7 +73,12 @@ function ProductDetail() {
             </div>
 
             <div className={`toast ${toast ? 'show' : ''}`}>
-                <strong>{product.name}</strong> — ajoute au panier
+                <span className="toast-check">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                </span>
+                <span><strong>{product.name}</strong> ajoute au panier</span>
             </div>
         </div>
     )

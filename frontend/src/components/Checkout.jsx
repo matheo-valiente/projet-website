@@ -59,7 +59,6 @@ function Checkout() {
         <div className="checkout-section">
             <h2 className="page-title">Validation de la commande</h2>
 
-            {/* Steps */}
             <div className="checkout-steps">
                 <div className="step done">
                     <span className="step-number">1</span>
@@ -103,27 +102,29 @@ function Checkout() {
                         required
                     />
                 </div>
-                <div className="form-group">
-                    <label htmlFor="city">Ville</label>
-                    <input
-                        id="city"
-                        name="city"
-                        placeholder="Paris"
-                        value={address.city}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="postalCode">Code postal</label>
-                    <input
-                        id="postalCode"
-                        name="postalCode"
-                        placeholder="75001"
-                        value={address.postalCode}
-                        onChange={handleChange}
-                        required
-                    />
+                <div className="address-row">
+                    <div className="form-group">
+                        <label htmlFor="city">Ville</label>
+                        <input
+                            id="city"
+                            name="city"
+                            placeholder="Paris"
+                            value={address.city}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="postalCode">Code postal</label>
+                        <input
+                            id="postalCode"
+                            name="postalCode"
+                            placeholder="75001"
+                            value={address.postalCode}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
                 </div>
                 <div className="form-group">
                     <label htmlFor="country">Pays</label>

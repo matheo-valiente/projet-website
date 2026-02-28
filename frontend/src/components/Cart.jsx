@@ -13,7 +13,14 @@ function Cart() {
             <h2 className="page-title">Mon Panier</h2>
             {items.length === 0 ? (
                 <div className="empty-state">
-                    <p>Votre panier est vide</p>
+                    <div className="empty-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.3 }}>
+                            <circle cx="9" cy="21" r="1" /><circle cx="20" cy="21" r="1" />
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+                        </svg>
+                    </div>
+                    <p className="empty-state-title">Votre panier est vide</p>
+                    <p>Parcourez nos produits pour commencer vos achats</p>
                     <Link to="/" className="btn-secondary">Voir les produits</Link>
                 </div>
             ) : (
@@ -42,11 +49,14 @@ function Cart() {
                                         Supprimer
                                     </button>
                                 </div>
+                                <span className="cart-item-subtotal">
+                                    {(item.product.price * item.quantity).toFixed(2)} &euro;
+                                </span>
                             </div>
                         ))}
                     </div>
                     <div className="cart-total">
-                        <span className="cart-total-label">Total</span>
+                        <span className="cart-total-label">Total ({items.length} article{items.length > 1 ? 's' : ''})</span>
                         <span className="cart-total-amount">{total.toFixed(2)} &euro;</span>
                     </div>
                     <button className="btn-checkout" onClick={() => navigate('/checkout')}>

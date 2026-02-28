@@ -7,6 +7,7 @@ function Register() {
     firstName: '', lastName: '', email: '', password: ''
   })
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value })
@@ -15,6 +16,7 @@ function Register() {
   const handleSubmit = (e) => {
     e.preventDefault()
     setError('')
+    setLoading(true)
     fetch('http://localhost:8080/api/users', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -28,6 +30,7 @@ function Register() {
         navigate('/login')
       })
       .catch(err => setError(err.message))
+      .finally(() => setLoading(false))
   }
 
   return (
@@ -36,25 +39,29 @@ function Register() {
       <div className="register-card">
         {error && <p className="login-error">{error}</p>}
         <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="firstName">Prenom</label>
-            <input
-              id="firstName"
-              name="firstName"
-              placeholder="Jean"
-              value={form.firstName}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="lastName">Nom</label>
-            <input
-              id="lastName"
-              name="lastName"
-              placeholder="Dupont"
-              value={form.lastName}
-              onChange={handleChange}
-            />
+          <div className="form-row">
+            <div className="form-group">
+              <label htmlFor="firstName">Prenom</label>
+              <input
+                id="firstName"
+                name="firstName"
+                placeholder="Jean"
+                value={form.firstName}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="lastName">Nom</label>
+              <input
+                id="lastName"
+                name="lastName"
+                placeholder="Dupont"
+                value={form.lastName}
+                onChange={handleChange}
+                required
+              />
+            </div>
           </div>
           <div className="form-group">
             <label htmlFor="email">Email</label>
@@ -65,6 +72,7 @@ function Register() {
               placeholder="jean@email.com"
               value={form.email}
               onChange={handleChange}
+              required
             />
           </div>
           <div className="form-group">
@@ -76,9 +84,12 @@ function Register() {
               placeholder="Minimum 6 caracteres"
               value={form.password}
               onChange={handleChange}
+              required
             />
           </div>
-          <button type="submit" className="btn-add btn-register">S'inscrire</button>
+          <button type="submit" className="btn-add btn-register" disabled={loading}>
+            {loading ? 'Inscription...' : "S'inscrire"}
+          </button>
         </form>
         <p className="login-link">
           Deja un compte ? <Link to="/login">Se connecter</Link>
