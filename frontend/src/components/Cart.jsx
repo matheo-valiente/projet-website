@@ -8,6 +8,8 @@ function Cart() {
 
     const total = items.reduce((sum, item) => sum + item.product.price * item.quantity, 0)
 
+    //update cart
+    ()
     return (
         <div className="cart-section">
             <h2 className="page-title">Mon Panier</h2>
