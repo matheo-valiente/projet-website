@@ -4,6 +4,7 @@ import ProductDetail from './components/ProductDetail'
 import Cart from './components/Cart'
 import Checkout from './components/Checkout'
 import Confirmation from './components/Confirmation'
+import PaymentSuccess from './components/PaymentSuccess'
 import Orders from './components/Orders'
 import Register from './components/Register'
 import Login from './components/Login'
@@ -122,6 +123,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/checkout" element={<ProtectedRoute><Checkout /></ProtectedRoute>} />
             <Route path="/confirmation/:orderId" element={<ProtectedRoute><Confirmation /></ProtectedRoute>} />
+            <Route path="/payment-success" element={<ProtectedRoute><PaymentSuccess /></ProtectedRoute>} />
             <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>} />
           </Routes>
         </div>

@@ -41,13 +41,13 @@ function Checkout() {
             if (!addrRes.ok) throw new Error("Erreur lors de la sauvegarde de l'adresse")
             const addrData = await addrRes.json()
 
-            const orderRes = await fetch(`${API}/api/orders?userId=${user.id}&addressId=${addrData.id}`, {
+            const stripeRes = await fetch(`${API}/api/stripe/create-checkout-session?userId=${user.id}&addressId=${addrData.id}`, {
                 method: 'POST'
             })
-            if (!orderRes.ok) throw new Error('Erreur lors de la creation de la commande')
-            const orderData = await orderRes.json()
+            if (!stripeRes.ok) throw new Error('Erreur lors de la creation du paiement')
+            const stripeData = await stripeRes.json()
 
-            navigate(`/confirmation/${orderData.id}`)
+            window.location.href = stripeData.url
         } catch (err) {
             setError(err.message)
         } finally {
@@ -72,6 +72,11 @@ function Checkout() {
                 <div className="step-line"></div>
                 <div className="step">
                     <span className="step-number">3</span>
+                    <span>Paiement</span>
+                </div>
+                <div className="step-line"></div>
+                <div className="step">
+                    <span className="step-number">4</span>
                     <span>Confirmation</span>
                 </div>
             </div>
@@ -138,8 +143,8 @@ function Checkout() {
                     />
                 </div>
                 {error && <p className="error-message">{error}</p>}
-                <button type="submit" className="btn-submit" disabled={loading}>
-                    {loading ? 'Traitement...' : 'Confirmer la commande'}
+                <button type="submit" className="btn-submit btn-stripe" disabled={loading}>
+                    {loading ? 'Redirection vers le paiement...' : 'Payer avec Stripe'}
                 </button>
             </form>
         </div>
