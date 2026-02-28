@@ -23,6 +23,7 @@ function Checkout() {
         setAddress({ ...address, [e.target.name]: e.target.value })
     }
 
+    //test git
     const handleSubmit = async (e) => {
         e.preventDefault()
         setError('')
